@@ -3,24 +3,23 @@ import pytest
 
 class TestBooksCollector:
 
-
     def test_add_new_book_success(self, collector):
         collector.add_new_book('Book_1')
-        assert 'Book_1' in collector.books_genre
+        assert 'Book_1' in collector.get_books_genre()
 
     def test_add_new_book_empty_name(self, collector):
         collector.add_new_book('')
-        assert '' not in collector.books_genre
+        assert '' not in collector.get_books_genre()
 
     def test_set_books_genre_success(self, collector):
         collector.add_new_book('Book_1')
         collector.set_book_genre('Book_1', 'Комедии')
-        assert collector.books_genre['Book_1'] == 'Комедии'
+        assert collector.get_books_genre()['Book_1'] == 'Комедии'
 
     def test_set_book_genre_invalid_genre(self, collector):
         collector.add_new_book('Book_2')
         collector.set_book_genre('Book_2', 'Поэма')
-        assert collector.books_genre['Book_2'] == ''
+        assert collector.get_books_genre()['Book_2'] == ''
 
     def test_get_book_genre_existing_book(self, collector):
         collector.add_new_book('Book_3')
@@ -52,13 +51,13 @@ class TestBooksCollector:
     def test_add_book_in_favorites_success(self, collector):
         collector.add_new_book('Book_8')
         collector.add_book_in_favorites('Book_8')
-        assert 'Book_8' in collector.favorites
+        assert 'Book_8' in collector.get_list_of_favorites_books()
 
     def test_delete_book_from_favorites_success(self, collector):
         collector.add_new_book('Book_9')
         collector.add_book_in_favorites('Book_9')
         collector.delete_book_from_favorites('Book_9')
-        assert 'Book_9' not in collector.favorites
+        assert 'Book_9' not in collector.get_list_of_favorites_books()
 
     @pytest.mark.parametrize('name', ['Book_10', 'Book_11'])
     def test_get_list_of_favorites_books_success(self, collector, name):
